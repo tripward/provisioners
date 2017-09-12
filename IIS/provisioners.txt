@@ -1,0 +1,12 @@
+  # .NET 4.5 and IIS
+    #config.vm.provision :shell, path: "provisioners/IIS/install-iis.cmd"
+    config.vm.provision :shell, path: "provisioners/IIS/install_iis_WindowsFeatures.ps1"
+    #delete the default website because it interferes with porst for the project website
+    config.vm.provision :shell, path: "provisioners/IIS/delete-default-iis-website.ps1"
+    #create project website
+    config.vm.provision :shell, path: "provisioners/IIS/creating-website-in-iis.cmd"
+    # create a site for CFIDE
+    config.vm.provision :shell, path: "provisioners/IIS/creating-cfide-website-in-iis.cmd"
+
+# install webplatform and url urlrewrite
+    config.vm.provision :shell, path: "provisioners/IIS/instal_URLRewrite.ps1"
