@@ -1,0 +1,6 @@
+#ignore exes
+*.exe
+*.msi
+*.zip
+*.jar
+Extras/
