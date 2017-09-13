@@ -1,0 +1,12 @@
+Resolution issue fix:
+
+config.vm.provider "virtualbox" do |vb|
+       vb.name = vm_name
+       vb.gui = true
+
+        # increase video ram 
+        vb.customize ["modifyvm", :id, "--vram", "60"]
+
+Set video RAM – this will allow you to resize on the fly
+
+jim

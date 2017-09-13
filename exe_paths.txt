@@ -1,0 +1,4 @@
+https://www.virtualbox.org/wiki/Downloads
+https://www.vagrantup.com/downloads.html
+http://www.cfmlrepo.com/
+https://www.microsoft.com/en-us/download/details.aspx?id=7435

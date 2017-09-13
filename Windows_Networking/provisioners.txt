@@ -1,0 +1,2 @@
+# set up the symlink and share so IIS can call the web directory on the host machiney
+  config.vm.provision :shell, path: "scripts/create_Sym_Share.ps1"

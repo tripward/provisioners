@@ -1,0 +1,202 @@
+migrrate childwelfare_gateway-IMS MSSQL 2008 to MSSQL 2016 and implement data scrubbing script
+
+good afternoon, I am out tomorrow and wont be able to respond until monday. If you run into any issues just stop and will look when i get back.
+
+
+
+
+ log file - reduce size - do we even need to log - turn loging off? truncate and resize log?
+select * from information_schema.columns
+are there trig about inserting/updating data???? how to deal
+
+create a temp table with 3 columns tablename and columns id coilumn to randimize
+introspect on listed tables columns to look for bad columns names/tables
+
+copy on prod, randize there, then bring down
+
+clienthosting will have a db for their stuff
+
+
+High level overview
+BU vnuchsql08prod.systems.hosting.icfi.com database childwelfare_gateway_ims
+Restore on VNUCHSQL16DEV.systems.hosting.icfi.com to database childwelfare_gateway_ims
+execute cfnRandomizedA_Z_0_9.sql - it will add a randomize function to msdb, this can be changed but the db is declared on line 1 so it would have to be changed.This script would be used agaist many databases
+execute obfuscate_Data_StoredProc_childwelfare_gateway-IMS.sql - this scripts runs through all the tables/columns identified to contain sensitive information and randomizes the data
+
+
+create table #tblOm_Temp (
+
+    rowID int,
+	tableName varchar(100),
+	idColumnName varchar(100),
+	columnNames varchar(100)
+)
+
+--insert row for every table that contains sensitive info
+--Tablenam, identidyColumn, columns to randomize
+insert into #tblom_temp values(1,'Address','addressID','contactPhone,address1,contactFirstName,contactLastName')
+insert into #tblom_temp values(2,'Conference_Staff','staffID','staffID,firstName, lastName')
+
+SELECT * FROM #tblom_temp
+
+DECLARE @rowID int
+DECLARE @idColumnName varchar(30)
+DECLARE @tableName varchar(30)
+DECLARE @columnNames varchar(30)
+
+--holds the sql statement to pull data from temp table
+DECLARE @sqlCommand nvarchar(1000)
+
+	/**  for each table listed **/
+	while exists (SELECT * FROM #tblom_temp)
+	begin
+
+		SET @rowID = rowID
+		SET @idColumnName = idColumnName
+		SET @tableName = tableName
+		SET @columnNames = columnNames
+
+
+		/**  scamble fields **/
+		while exists (select * from #myTempTable)
+		begin
+		
+			
+			SET @sqlCommand = 'SELECT TOP 1' + @columnNames + ' FROM ' + #myTempTable + 'ORDER BY ' + @idColumnName + ' ASC'
+
+			exec sp_executesql @sqlCommand
+			select *
+
+
+		END
+	END
+GO
+
+
+
+IF OBJECT_ID('tempdb.dbo.#tblom_temp', 'U') IS NOT NULL
+	DROP TABLE dbo.#tblom_temp
+GO
+
+create table #tblOm_Temp (
+
+    rowID int,
+	tableName varchar(100),
+	idColumnName varchar(100),
+	columnNames varchar(100)
+)
+
+--insert row for every table that contains sensitive info
+--Tablenam, identidyColumn, columns to randomize
+insert into #tblom_temp values(1,'Address','addressID','contactPhone,address1,contactFirstName,contactLastName')
+insert into #tblom_temp values(2,'Conference_Staff','staffID','staffID,firstName, lastName')
+
+SELECT * FROM #tblom_temp
+
+DECLARE @rowID int
+DECLARE @idColumnName varchar(30)
+DECLARE @tableName varchar(30)
+DECLARE @columnNames varchar(30)
+
+--holds the sql statement to pull data from temp table
+DECLARE @sqlCommand nvarchar(1000)
+
+	/**  for each table listed **/
+	while exists (SELECT * FROM #tblom_temp)
+	begin
+
+		SET @rowID = rowID
+		SET @idColumnName = idColumnName
+		SET @tableName = tableName
+		SET @columnNames = columnNames
+
+
+
+
+
+
+
+
+
+		/**  scamble fields **/
+		while exists (select * from #myTempTable)
+		begin
+		
+			
+			SET @sqlCommand = 'SELECT TOP 1' + @columnNames + ' FROM ' + #tblom_temp + 'ORDER BY ' + @idColumnName + ' ASC'
+
+			exec sp_executesql @sqlCommand
+			select *
+
+
+		END
+	END
+GO
+
+
+
+IF OBJECT_ID('tempdb.dbo.#tblom_temp', 'U') IS NOT NULL
+	DROP TABLE dbo.#tblom_temp
+GO
+
+create table #tblOm_Temp (
+
+    rowID int,
+	tableName varchar(100),
+	idColumnName varchar(100),
+	columnNames varchar(100)
+)
+
+--insert row for every table that contains sensitive info
+--Tablenam, identidyColumn, columns to randomize
+insert into #tblom_temp values(1,'Address','addressID','contactPhone,address1,contactFirstName,contactLastName')
+insert into #tblom_temp values(2,'Conference_Staff','staffID','staffID,firstName, lastName')
+
+SELECT * FROM #tblom_temp
+
+DECLARE @rowID int
+DECLARE @idColumnName varchar(30)
+DECLARE @tableName varchar(30)
+DECLARE @columnNames varchar(30)
+
+--holds the sql statement to pull data from temp table
+DECLARE @sqlCommand nvarchar(1000)
+
+	/**  for each table listed **/
+	while exists (SELECT * FROM #tblom_temp)
+	begin
+
+		SET @rowID = rowID
+		SET @idColumnName = idColumnName
+		SET @tableName = tableName
+		SET @columnNames = columnNames
+
+
+
+
+
+
+
+
+
+		/**  scamble fields **/
+		while exists (select * from #myTempTable)
+		begin
+		
+			
+			SET @sqlCommand = 'SELECT TOP 1' + @columnNames + ' FROM ' + #tblom_temp + 'ORDER BY ' + @idColumnName + ' ASC'
+
+			exec sp_executesql @sqlCommand
+			select *
+
+
+		END
+	END
+GO
+
+SET @sqlCommand = 'SELECT TOP 1' + @columnNames + ' FROM #tblom_temp ORDER BY ' + @idColumnName + ' ASC'
+
+		exec sp_executesql @sqlCommand
+		--select * FROM (exec sp_executesql @sqlCommand)
+
+
